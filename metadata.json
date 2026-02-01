@@ -1,0 +1,5 @@
+{
+  "name": "Batch Image Generator",
+  "description": "A powerful tool to generate multiple images from a list of text prompts using the Google Gemini API. Enter one prompt per line and generate all images in a single batch.",
+  "requestFramePermissions": []
+}
