@@ -37,7 +37,7 @@ export const STYLE_PRESETS = [
 export const IMAGE_MODELS: ImageModelOption[] = [
     { label: 'Gemini 2.5 Flash (Recommended)', value: 'gemini-2.5-flash-image' },
     { label: 'Gemini 3 Pro Image', value: 'gemini-3-pro-image-preview' },
-    { label: 'Imagen 4.0 (Recommended)', value: 'imagen-4.0-generate-001' },
+    { label: 'Imagen 4.0', value: 'imagen-4.0-generate-001' },
     { label: 'Imagen 3.0', value: 'imagen-3.0-generate-001' },
 ];
 

@@ -33,6 +33,37 @@ export class GenerationFormComponent {
     this.numberOfImages.set(clampedValue);
   }
 
+  handleFileInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+
+    if (!file) return;
+
+    if (file.type !== 'text/plain') {
+      console.error("Invalid file type. Please upload a .txt file.");
+      target.value = ''; // Reset the input
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      const content = e.target?.result as string;
+      if (content) {
+        this.prompts.set(content);
+      }
+    };
+    
+    reader.onerror = () => {
+        console.error("Error reading file:", reader.error);
+    };
+
+    reader.readAsText(file);
+    
+    // Reset the input value so the same file can be re-uploaded after changes
+    target.value = '';
+  }
+
   submitGeneration(): void {
     if (!this.prompts().trim()) {
       return;
