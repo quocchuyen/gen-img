@@ -1,0 +1,48 @@
+import { Component, ChangeDetectionStrategy, signal, output, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AspectRatio, ImageModel } from '../../../services/gemini.service';
+import { GenerationConfig, STYLE_PRESETS, IMAGE_MODELS, ASPECT_RATIOS, ImageModelOption } from '../../models/image-generation.model';
+
+@Component({
+  selector: 'app-generation-form',
+  templateUrl: './generation-form.component.html',
+  imports: [CommonModule],
+})
+export class GenerationFormComponent {
+  isLoading = input.required<boolean>();
+  generate = output<GenerationConfig>();
+
+  readonly stylePresets = STYLE_PRESETS;
+  readonly imageModels: ImageModelOption[] = IMAGE_MODELS;
+  readonly aspectRatios: AspectRatio[] = ASPECT_RATIOS;
+
+  prompts = signal<string>('A photorealistic portrait of a pensive android in a neon-lit alley.\nA majestic fantasy castle perched on a floating island at sunrise.\nA cute, fluffy red panda enjoying a bowl of ramen noodles.');
+  aspectRatio = signal<AspectRatio>('1:1');
+  numberOfImages = signal<number>(1);
+  stylePreset = signal<string>('');
+  model = signal<ImageModel>('imagen-4.0-generate-001');
+
+  onNumberOfImagesChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.valueAsNumber;
+    if (isNaN(value)) {
+      this.numberOfImages.set(1);
+      return;
+    }
+    const clampedValue = Math.max(1, Math.min(4, value));
+    this.numberOfImages.set(clampedValue);
+  }
+
+  submitGeneration(): void {
+    if (!this.prompts().trim()) {
+      return;
+    }
+    this.generate.emit({
+      prompts: this.prompts(),
+      aspectRatio: this.aspectRatio(),
+      numberOfImages: this.numberOfImages(),
+      stylePreset: this.stylePreset(),
+      model: this.model(),
+    });
+  }
+}
