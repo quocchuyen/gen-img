@@ -1,8 +1,8 @@
+import { environment } from '../environments/environment';
+
 import { Injectable } from '@angular/core';
 import { GoogleGenAI } from "@google/genai";
 
-// Declare process to avoid TypeScript errors for process.env
-declare const process: any;
 
 export type AspectRatio = "1:1" | "16:9" | "9:16" | "4:3" | "3:4";
 export type ImageModel = 'gemini-2.5-flash-image' | 'gemini-3-pro-image-preview' |'imagen-3.0-generate-001' | 'imagen-4.0-generate-001';
@@ -14,10 +14,10 @@ export class GeminiService {
   private ai: GoogleGenAI;
 
   constructor() {
-    if (!process.env.API_KEY) {
+    if (!environment.apiKey) {
       throw new Error("API_KEY environment variable not set");
     }
-    this.ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    this.ai = new GoogleGenAI({ apiKey: environment.apiKey });
   }
 
   async generateImage(
