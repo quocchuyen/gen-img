@@ -20,7 +20,7 @@ export class GenerationFormComponent {
   aspectRatio = signal<AspectRatio>('1:1');
   numberOfImages = signal<number>(1);
   stylePreset = signal<string>('');
-  model = signal<ImageModel>('imagen-4.0-generate-001');
+  model = signal<ImageModel>('gemini-2.5-flash-image');
 
   onNumberOfImagesChange(event: Event): void {
     const input = event.target as HTMLInputElement;
